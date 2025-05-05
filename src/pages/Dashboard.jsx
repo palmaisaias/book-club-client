@@ -15,7 +15,7 @@ export default function Dashboard({ userName }) {
   useEffect(() => {
     async function fetchPick() {
       try {
-        const res = await fetch("http://localhost:8000/monthly/pick", {
+        const res = await fetch("https://book-club-server-qlrh.onrender.com/monthly/pick", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

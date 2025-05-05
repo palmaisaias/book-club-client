@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -12,7 +14,7 @@ export function AuthProvider({ children }) {
     form.append("username", username);
     form.append("password", password);
 
-    const res = await fetch("http://localhost:8000/auth/login", {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: form.toString(),
@@ -27,7 +29,7 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async (username, password) => {
-    const res = await fetch("http://localhost:8000/auth/signup", {
+    const res = await fetch(`${API_URL}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),

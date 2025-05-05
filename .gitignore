@@ -37,3 +37,5 @@ dist/
 
 # macOS junk
 .DS_Store
+
+.env
