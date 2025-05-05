@@ -1,0 +1,96 @@
+/* Profile.module.css */
+
+/* Import a modern font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page wrapper: gradient background, padding, and animation */
+.wrapper {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  padding: 2rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Header section styling */
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Card container: lifted shadow, rounded corners, hover lift */
+.card {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Individual suggestion item: white background, subtle shadow */
+.suggestionItem {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Spacing for form groups */
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+/* Remove link button: red accent, hover darken */
+.removeButton {
+  padding: 0;
+  margin-top: 0.5rem;
+  color: #e63946;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.removeButton:hover {
+  color: #d62828;
+  text-decoration: underline;
+}
+
+/* Add-another button: ocean blue style */
+.addButton {
+  margin-bottom: 1rem;
+  background-color: #457b9d;
+  border-color: #457b9d;
+  color: #ffffff;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.addButton:hover {
+  background-color: #1d3557;
+  transform: translateY(-2px);
+}
+
+/* Save button: sea green style */
+.saveButton {
+  width: 100%;
+  background-color: #2a9d8f;
+  border-color: #2a9d8f;
+  color: #ffffff;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.saveButton:hover {
+  background-color: #21867a;
+  transform: translateY(-2px);
+}

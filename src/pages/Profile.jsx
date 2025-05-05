@@ -1,7 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
+import styles from "./Profile.module.css";
+
+// Base API URL from Vite env or fallback for dev
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -40,7 +44,7 @@ export default function Profile() {
     try {
       for (const s of suggestions) {
         if (!s.title.trim()) continue;
-        await fetch("https://book-club-server-qlrh.onrender.com/suggestions/", {
+        await fetch(`${API_URL}/suggestions/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -61,8 +65,8 @@ export default function Profile() {
   };
 
   return (
-    <Container className="py-5">
-      <Row className="mb-4 text-center">
+    <Container className={styles.wrapper}>
+      <Row className={styles.header}>
         <Col>
           <h2 className="fw-bold">Hey {userName}!</h2>
           <p className="lead">Add up to four books you’d like us to read.</p>
@@ -71,12 +75,12 @@ export default function Profile() {
 
       <Row className="justify-content-center">
         <Col md={8} lg={6}>
-          <Card className="shadow">
+          <Card className={`${styles.card} shadow`}>
             <Card.Body>
               <Form>
                 {suggestions.map((s, idx) => (
-                  <div key={idx} className="mb-3 border-bottom pb-3">
-                    <Form.Group className="mb-2">
+                  <div key={idx} className={styles.suggestionItem}>
+                    <Form.Group className={styles.formGroup}>
                       <Form.Label>Title #{idx + 1}</Form.Label>
                       <Form.Control
                         value={s.title}
@@ -86,7 +90,8 @@ export default function Profile() {
                         }
                       />
                     </Form.Group>
-                    <Form.Group>
+
+                    <Form.Group className={styles.formGroup}>
                       <Form.Label>Author</Form.Label>
                       <Form.Control
                         value={s.author}
@@ -96,10 +101,11 @@ export default function Profile() {
                         }
                       />
                     </Form.Group>
+
                     {idx > 0 && (
                       <Button
                         variant="link"
-                        className="p-0 mt-2 text-danger"
+                        className={styles.removeButton}
                         onClick={() => removeRow(idx)}
                       >
                         Remove
@@ -110,7 +116,7 @@ export default function Profile() {
 
                 <Button
                   variant="secondary"
-                  className="mb-3"
+                  className={styles.addButton}
                   onClick={addRow}
                   disabled={suggestions.length === 4}
                 >
@@ -118,7 +124,11 @@ export default function Profile() {
                 </Button>
 
                 <div className="d-grid">
-                  <Button variant="primary" onClick={handleSave}>
+                  <Button
+                    variant="primary"
+                    className={styles.saveButton}
+                    onClick={handleSave}
+                  >
                     Save & Return to Dashboard
                   </Button>
                 </div>
