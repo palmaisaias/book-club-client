@@ -17,7 +17,7 @@
 
 /* Page wrapper: gradient background, padding, and animation */
 .wrapper {
-  font-family: 'Montserrat', sans-serif;
+  font-family: sans-serif;
   background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
   padding: 2rem;
   animation: fadeInUp 0.6s ease-out;
