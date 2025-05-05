@@ -10,7 +10,7 @@ export default function Landing() {
         <Col>
           <img src={logo} width={120} alt="Book Club Logo" />
           <h1 className="mt-3 fw-bold">Sibling Book Club</h1>
-          <p className="lead">Join us to suggest and vote on books.</p>
+          <p className="lead">Read. Argue. Repeat.</p>
         </Col>
       </Row>
       <Row>
