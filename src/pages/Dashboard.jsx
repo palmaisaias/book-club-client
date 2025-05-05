@@ -16,8 +16,9 @@ export default function Dashboard({ userName }) {
     async function fetchPick() {
       try {
         const res = await fetch("http://localhost:8000/monthly/pick", {
+          method: "POST",
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!res.ok) {
@@ -34,7 +35,7 @@ export default function Dashboard({ userName }) {
       }
     }
     fetchPick();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (

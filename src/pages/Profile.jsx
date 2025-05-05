@@ -1,34 +1,35 @@
-// client/src/pages/Profile.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 
-export default function Profile({ userName }) {
+export default function Profile() {
   const navigate = useNavigate();
-  const { token } = useContext(AuthContext);
+  const { token, userName } = useContext(AuthContext);
+
+  // Use a storage key unique to this user
+  const storageKey = `bookSuggestions-${userName}`;
 
   // Pull saved suggestions (if any) from localStorage
-  const stored = JSON.parse(localStorage.getItem("bookSuggestions") || "[]");
+  const stored = JSON.parse(localStorage.getItem(storageKey) || "[]");
   const [suggestions, setSuggestions] = useState(
     stored.length ? stored : [{ title: "", author: "" }]
   );
 
-  // Persist on every change
+  // Persist changes to that per-user key
   useEffect(() => {
-    localStorage.setItem("bookSuggestions", JSON.stringify(suggestions));
-  }, [suggestions]);
+    localStorage.setItem(storageKey, JSON.stringify(suggestions));
+  }, [suggestions, storageKey]);
 
-  const handleChange = (idx, field, value) => {
+  const handleChange = (idx, field, value) =>
     setSuggestions((prev) =>
       prev.map((s, i) => (i === idx ? { ...s, [field]: value } : s))
     );
-  };
 
   const addRow = () => {
-    if (suggestions.length < 4)
+    if (suggestions.length < 4) {
       setSuggestions([...suggestions, { title: "", author: "" }]);
+    }
   };
 
   const removeRow = (idx) => {
@@ -38,12 +39,12 @@ export default function Profile({ userName }) {
   const handleSave = async () => {
     try {
       for (const s of suggestions) {
-        if (!s.title.trim()) continue;   // skip blank rows
-        await fetch("http://localhost:8000/suggestions/", {
+        if (!s.title.trim()) continue;
+        await fetch("https://book-club-server-qlrh.onrender.com/suggestions/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             username: userName,
@@ -63,8 +64,8 @@ export default function Profile({ userName }) {
     <Container className="py-5">
       <Row className="mb-4 text-center">
         <Col>
-          <h2 className="fw-bold">Hey {userName || "there"}!</h2>
-          <p className="lead">Add up to four books you’d like the family to read.</p>
+          <h2 className="fw-bold">Hey {userName}!</h2>
+          <p className="lead">Add up to four books you’d like us to read.</p>
         </Col>
       </Row>
 
@@ -78,19 +79,21 @@ export default function Profile({ userName }) {
                     <Form.Group className="mb-2">
                       <Form.Label>Title #{idx + 1}</Form.Label>
                       <Form.Control
-                        type="text"
                         value={s.title}
                         placeholder="Book title"
-                        onChange={(e) => handleChange(idx, "title", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(idx, "title", e.target.value)
+                        }
                       />
                     </Form.Group>
                     <Form.Group>
                       <Form.Label>Author</Form.Label>
                       <Form.Control
-                        type="text"
                         value={s.author}
                         placeholder="Author name"
-                        onChange={(e) => handleChange(idx, "author", e.target.value)}
+                        onChange={(e) =>
+                          handleChange(idx, "author", e.target.value)
+                        }
                       />
                     </Form.Group>
                     {idx > 0 && (
@@ -116,7 +119,7 @@ export default function Profile({ userName }) {
 
                 <div className="d-grid">
                   <Button variant="primary" onClick={handleSave}>
-                    Save &amp; Return to Dashboard
+                    Save & Return to Dashboard
                   </Button>
                 </div>
               </Form>
