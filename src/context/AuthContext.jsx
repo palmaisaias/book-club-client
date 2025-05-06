@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import api from "../api/axiosInstance.js";
 
 export const AuthContext = createContext();
 
@@ -12,36 +11,38 @@ export function AuthProvider({ children }) {
 
   // On login/signup, store token + username
   const login = async (username, password) => {
+    // build URL-encoded form data
     const form = new URLSearchParams();
     form.append("username", username);
     form.append("password", password);
 
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: form.toString(),
-    });
-
-    if (!res.ok) throw new Error("Login failed");
-    const { access_token } = await res.json();
-    setToken(access_token);
-    setUserName(username);
-    localStorage.setItem("token", access_token);
-    localStorage.setItem("username", username);
+    try {
+      // Axios POST with form data
+      const response = await api.post("/auth/login", form.toString(), {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+      const { access_token } = response.data;
+      setToken(access_token);
+      setUserName(username);
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("username", username);
+    } catch (err) {
+      console.error("Login failed:", err.response?.data || err);
+      throw new Error("Login failed");
+    }
   };
 
   const signup = async (username, password) => {
-    const res = await fetch(`${API_URL}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || "Signup failed");
+    try {
+      // JSON POST for signup
+      await api.post("/auth/signup", { username, password });
+      // auto-login after signup
+      await login(username, password);
+    } catch (err) {
+      const detail = err.response?.data?.detail;
+      console.error("Signup failed:", err.response?.data || err);
+      throw new Error(detail || "Signup failed");
     }
-    // auto-login after signup
-    await login(username, password);
   };
 
   const logout = () => {

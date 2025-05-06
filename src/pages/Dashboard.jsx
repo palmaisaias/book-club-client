@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AuthContext } from "../context/AuthContext.jsx";
 import styles from "./Dashboard.module.css";
-
-// Base API URL from Vite env or fallback for dev
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import api from "../api/axiosInstance.js";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -19,32 +17,19 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // Trigger or retrieve the monthly pick
-        const pickRes = await fetch(`${API_URL}/monthly/pick`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!pickRes.ok) {
-          const err = await pickRes.json();
-          throw new Error(err.detail || "No suggestions available");
-        }
-        const pickData = await pickRes.json();
+        // Trigger or retrieve the monthly pick via Axios
+        const pickResponse = await api.post("/monthly/pick");
+        const pickData = pickResponse.data;
         setBook(pickData.suggestion);
         setMonth(pickData.month);
 
-        // Fetch this user's own suggestions
-        const userRes = await fetch(
-          `${API_URL}/suggestions/user/${userName}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        if (userRes.ok) {
-          const list = await userRes.json();
-          setUserSuggestions(list);
-        }
+        // Fetch this user's own suggestions via Axios
+        const userResponse = await api.get(`/suggestions/user/${userName}`);
+        setUserSuggestions(userResponse.data);
       } catch (err) {
-        setError(err.message);
+        console.error("Dashboard fetchData error:", err);
+        const msg = err.response?.data?.detail || err.message || "Error loading data";
+        setError(msg);
       } finally {
         setLoading(false);
       }

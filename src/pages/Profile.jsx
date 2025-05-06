@@ -3,9 +3,7 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 import styles from "./Profile.module.css";
-
-// Base API URL from Vite env or fallback for dev
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import api from "../api/axiosInstance.js";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -57,44 +55,27 @@ export default function Profile() {
         if (!s.title.trim()) continue;
 
         const payload = { username: userName, title: s.title, author: s.author };
-        console.log("POST /suggestions/ payload:", payload);
+        console.log("Axios POST /suggestions/ payload:", payload);
 
-        const res = await fetch(`${API_URL}/suggestions/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        });
+        // Use axios instance; throws on non-2xx
+        try {
+          const response = await api.post("/suggestions/", payload);
+          console.log("Axios response data:", response.data);
+        } catch (err) {
+          const resData = err.response?.data;
+          console.error("Axios error response:", resData);
 
-        console.log("Response status:", res.status);
-        const resData = await res.json().catch(() => null);
-        console.log("Response JSON:", resData);
-
-        if (!res.ok) {
-          // Build a friendly error message
+          // Build friendly error message
           let errMsg = "Save failed";
-          // If FastAPI returns a list directly
           if (Array.isArray(resData)) {
             errMsg = resData
-              .map(e => {
-                const field = Array.isArray(e.loc) ? e.loc.slice(-1)[0] : e.loc;
-                return `${field}: ${e.msg}`;
-              })
+              .map(e => `${e.loc.slice(-1)[0]}: ${e.msg}`)
               .join("; ");
-          }
-          // If FastAPI wraps errors under `detail`
-          else if (Array.isArray(resData?.detail)) {
+          } else if (Array.isArray(resData?.detail)) {
             errMsg = resData.detail
-              .map(e => {
-                const field = Array.isArray(e.loc) ? e.loc.slice(-1)[0] : e.loc;
-                return `${field}: ${e.msg}`;
-              })
+              .map(e => `${e.loc.slice(-1)[0]}: ${e.msg}`)
               .join("; ");
-          }
-          // Or a single message
-          else if (typeof resData?.detail === "string") {
+          } else if (typeof resData?.detail === "string") {
             errMsg = resData.detail;
           }
           throw new Error(errMsg);
