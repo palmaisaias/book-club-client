@@ -21,8 +21,6 @@ export default function Login() {
     "Just do it. Ugh",
     "Sign in, clown.",
     "This again? Ffs",
-    "Welcome to pain",
-    "Show your shame",
     "Back already?",
     "You poor soul."
   ];
