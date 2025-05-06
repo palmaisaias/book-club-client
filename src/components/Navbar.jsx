@@ -19,7 +19,7 @@ export default function Navbar() {
     >
       <Container>
         <RBNavbar.Brand as={Link} to="/" className={styles.brand}>
-          The Bookish Nine
+        𓆉
         </RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="responsive-navbar-nav" />
         <RBNavbar.Collapse id="responsive-navbar-nav">

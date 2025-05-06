@@ -1,0 +1,67 @@
+.splashContainer {
+    background-color: #fff7ed;
+    color: #4e2a12;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    animation: fadeIn 1.2s ease-in-out;
+    position: relative;
+  }
+  
+  .logo {
+    width: 60%;
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin: 0.5rem 0;
+    font-weight: 700;
+    color: #ba4a00;
+  }
+  
+  .tagline {
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 1.1rem;
+    color: #7d3c1e;
+    margin-top: 0.25rem;
+    margin-bottom: 3rem;
+  }
+  
+  .enterButton {
+    position: absolute;
+    bottom: 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #ba4a00;
+    color: #fff7ed;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+  }
+  
+  .enterButton:hover {
+    transform: translateY(-2px);
+    background-color: #a84100;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  

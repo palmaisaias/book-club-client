@@ -1,45 +1,86 @@
 /* Navbar.module.css */
 
+/* Fade‑down animation */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Overall navbar styling */
 .navbar {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Brand styling */
-  .brand {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2a9d8f !important;
-  }
-  
-  /* Nav link base style */
+  background-color: #fff7ed;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  animation: fadeDown 0.8s ease-out;
+  padding: 0.5rem 1rem;
+}
+
+/* Brand styling */
+.brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ba4a00;
+  margin-right: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.brand:hover {
+  transform: translateY(-2px);
+}
+
+/* Nav link base style */
+.navLink {
+  font-family: sans-serif;
+  font-size: 1rem;
+  margin-left: 1rem;
+  color: #4e2a12;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.navLink:hover {
+  color: #ba4a00;
+  transform: translateY(-2px);
+}
+
+/* Active link highlight */
+.active {
+  color: #a84100;
+  font-weight: 600;
+}
+
+/* Button‑style CTA in navbar (if used) */
+.navButton {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background-color: #ba4a00;
+  color: #fff7ed;
+  border: none;
+  font-weight: bold;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  margin-left: 1rem;
+}
+
+.navButton:hover {
+  transform: translateY(-2px);
+  background-color: #a84100;
+}
+
+/* Mobile adjustments */
+@media (max-width: 992px) {
   .navLink {
-    font-size: 1rem;
-    margin-left: 1rem;
-    color: #333 !important;
-    transition: color 0.2s ease, transform 0.2s ease;
+    margin: 0.5rem 0;
+    text-align: center;
   }
-  
-  /* Hover effect */
-  .navLink:hover {
-    color: #2a9d8f !important;
-    transform: translateY(-2px);
+  .brand {
+    font-size: 1.25rem;
   }
-  
-  /* Active link highlight */
-  .active {
-    color: #e76f51 !important;
-    font-weight: 600;
-  }
-  
-  /* Mobile adjustments */
-  @media (max-width: 992px) {
-    .navLink {
-      margin: 0.5rem 0;
-      text-align: center;
-    }
-    .brand {
-      font-size: 1.25rem;
-    }
-  }
+}

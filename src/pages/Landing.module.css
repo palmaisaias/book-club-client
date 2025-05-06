@@ -1,0 +1,110 @@
+/* Landing.module.css */
+
+.landingContainer {
+    background: linear-gradient(180deg, #fff7ed 0%, #ffe5cc 100%);
+    color: #4e2a12;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+    animation: slideUp 1s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .hero {
+    margin-bottom: 2rem;
+  }
+  
+  .logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 1rem;
+    animation: popIn 0.8s ease-out;
+  }
+  
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    color: #ba4a00;
+  }
+  
+  .subheading {
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #7d3c1e;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .btnPrimary,
+  .btnSecondary {
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 999px !important;
+    font-weight: bold !important;
+    transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease !important;
+  }
+  
+  .btnPrimary {
+    background-color: #ba4a00 !important;
+    color: #fff7ed !important;
+    border: none !important;
+  }
+  
+  .btnPrimary:hover {
+    transform: translateY(-2px) !important;
+    background-color: #a84100 !important;
+  }
+  
+  .btnSecondary {
+    background-color: transparent !important;
+    color: #ba4a00 !important;
+    border: 2px solid #ba4a00 !important;
+  }
+  
+  .btnSecondary:hover {
+    transform: translateY(-2px) !important;
+    background-color: #ba4a00 !important;
+    color: #fff7ed !important;
+  }
+  
+  /* Responsive tweak */
+  @media (max-width: 576px) {
+    .heading {
+      font-size: 2rem;
+    }
+    .subheading {
+      font-size: 1rem;
+    }
+  }
