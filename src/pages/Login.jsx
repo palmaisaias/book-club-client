@@ -39,7 +39,7 @@ export default function Login() {
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Username</Form.Label>
-          <h6 class={styles.subheading}>cooler if you just used your name</h6>
+          
           <Form.Control
             className={styles.formControl}
             value={username}
@@ -50,7 +50,7 @@ export default function Login() {
 
         <Form.Group className="mb-3">
           <Form.Label>Password</Form.Label>
-          <h6 class={styles.subheading}>literally doesn't matter</h6>
+          
           <Form.Control
             type="password"
             className={styles.formControl}

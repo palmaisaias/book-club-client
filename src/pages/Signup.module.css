@@ -1,8 +1,112 @@
+/* Signup.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
 
 
+/* 1) Container wrapper */
+.signupContainer {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffe5cc 100%) !important;
+  color: #4e2a12 !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+  padding: 2rem !important;
+}
+
+/* 2) Typewriter title */
+.titleTypewriter {
+  margin-bottom: 0px;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid #ba4a00;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  animation:
+    typing 2s steps(8, end) forwards,    /* “Sign Up” is 7 characters + space */
+    blinkCaret 0.75s step-end infinite;
+}
+
+/* 3) Sub‑heading (optional tagline under title) */
 .subheading {
-    font-family: 'Cedarville Cursive', cursive;
-    margin-bottom: 1rem; /* or 16px or whatever spacing you want */
-  }
-  
+  font-family: 'Cedarville Cursive', cursive;
+  font-size: 1rem;
+  color: #7d3c1e;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+/* 4) Form controls */
+.formControl {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  background-color: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: #ba4a00;
+  box-shadow: 0 0 0 0.2rem rgba(186,74,0,0.25);
+}
+
+/* 5) Submit button */
+.submitButton {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  margin-top: 1rem !important;
+  border-radius: 999px !important;
+  background-color: #ba4a00 !important;
+  color: #fff !important;
+  border: none !important;
+  font-weight: bold !important;
+  font-size: 1rem !important;
+  transition: transform 0.2s ease, background-color 0.3s ease !important;
+}
+
+
+.submitButton:hover {
+  transform: translateY(-2px) !important;
+  background-color: #a84100 !important;
+}
+
+/* 6) “Already have an account?” text */
+.signupText {
+  margin-top: 1rem !important;
+  font-size: 0.9rem !important;
+  color: #4e2a12 !important;
+  text-align: center !important;
+}
+
+/* 7) Link inside that text */
+.signupLink {
+  color: #ba4a00 !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+.signupLink:hover {
+  color: #a84100 !important;
+  text-decoration: underline !important;
+}
+
+
+/* 8) Error alert override */
+.errorAlert {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* 9) Keyframes for typewriter */
+@keyframes typing {
+  from { width: 0ch; }
+  to   { width: 7ch; } /* “Sign Up” = 7 characters incl. space */
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent; }
+  50%      { border-color: #ba4a00; }
+}
