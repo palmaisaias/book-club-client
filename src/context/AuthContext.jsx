@@ -1,10 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [userName, setUserName] = useState(() => localStorage.getItem("username"));
 
@@ -47,7 +49,17 @@ export function AuthProvider({ children }) {
     setUserName(null);
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    navigate("/login");
   };
+
+  // Auto-logout after 30 minutes (token expiry)
+  useEffect(() => {
+    if (!token) return;
+    const timer = setTimeout(() => {
+      logout();
+    }, 30 * 60 * 1000);
+    return () => clearTimeout(timer);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, userName, login, signup, logout }}>

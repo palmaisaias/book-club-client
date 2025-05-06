@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate, Link } from "react-router-dom";
+import styles from "./Signup.module.css";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -23,6 +24,7 @@ export default function Signup() {
   return (
     <Container className="py-5" style={{ maxWidth: "400px" }}>
       <h2>Sign Up</h2>
+      <h6 class={styles.subheading}>...don't be a little bitch</h6>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
@@ -45,7 +47,7 @@ export default function Signup() {
         <Button type="submit" className="w-100">Sign Up</Button>
       </Form>
       <p className="mt-3 text-center">
-        Already have an account? <Link to="/login">Log in</Link>
+        Already have an account?...but forgot?...because you're dumb? <Link to="/login">Log in</Link>
       </p>
     </Container>
   );

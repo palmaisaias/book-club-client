@@ -2,9 +2,12 @@ import React from "react";
 import { Navbar as RBNavbar, Nav, Container } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Navbar.module.css";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function Navbar() {
   const location = useLocation();
+  const { token, logout } = useContext(AuthContext);
 
   return (
     <RBNavbar
