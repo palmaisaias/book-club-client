@@ -1,64 +1,71 @@
+// client/src/context/AuthContext.jsx
 import React, { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance.js";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
-  const [token, setToken] = useState(() => localStorage.getItem("token"));
-  const [userName, setUserName] = useState(() => localStorage.getItem("username"));
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || null);
 
-  // On login/signup, store token + username
+  // --- LOGIN ---
   const login = async (username, password) => {
-    // build URL-encoded form data
+    // Build form data correctly
     const form = new URLSearchParams();
     form.append("username", username);
     form.append("password", password);
 
+    console.log("🔑 login(): sending form", form.toString());
     try {
-      // Axios POST with form data
-      const response = await api.post("/auth/login", form.toString(), {
+      const response = await api.post("/auth/login", form, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
+      console.log("✅ login response:", response.data);
+
       const { access_token } = response.data;
       setToken(access_token);
       setUserName(username);
       localStorage.setItem("token", access_token);
-      localStorage.setItem("username", username);
+      localStorage.setItem("userName", username);
     } catch (err) {
-      console.error("Login failed:", err.response?.data || err);
-      throw new Error("Login failed");
+      console.error("❌ login failed:", err.response?.data || err);
+      // surface the backend detail if present
+      const detail = err.response?.data?.detail;
+      throw new Error(detail || "Login failed");
     }
   };
 
+  // --- SIGNUP ---
   const signup = async (username, password) => {
+    console.log("📝 signup(): payload", { username, password });
     try {
-      // JSON POST for signup
-      await api.post("/auth/signup", { username, password });
-      // auto-login after signup
+      const response = await api.post("/auth/signup", { username, password });
+      console.log("✅ signup response:", response.data);
+
+      // automatically log in after successful signup
       await login(username, password);
     } catch (err) {
+      console.error("❌ signup failed:", err.response?.data || err);
       const detail = err.response?.data?.detail;
-      console.error("Signup failed:", err.response?.data || err);
       throw new Error(detail || "Signup failed");
     }
   };
 
+  // --- LOGOUT ---
   const logout = () => {
     setToken(null);
     setUserName(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem("userName");
     navigate("/login");
   };
 
-  // Auto-logout after 30 minutes (token expiry)
+  // --- AUTO-LOGOUT after 30m ---
   useEffect(() => {
     if (!token) return;
-    const timer = setTimeout(() => {
-      logout();
-    }, 30 * 60 * 1000);
+    const timer = setTimeout(logout, 30 * 60 * 1000);
     return () => clearTimeout(timer);
   }, [token]);
 
