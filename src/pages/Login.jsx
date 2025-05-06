@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate, Link } from "react-router-dom";
@@ -10,8 +10,27 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [title, setTitle] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const titles = [
+    "Log the hell in",
+    "Prove you exist",
+    "Enter. Or don’t.",
+    "Just do it. Ugh",
+    "Sign in, clown.",
+    "This again? Ffs",
+    "Welcome to pain",
+    "Show your shame",
+    "Back already?",
+    "You poor soul."
+  ];
+
+  useEffect(() => {
+    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+    setTitle(randomTitle);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +47,12 @@ export default function Login() {
       className={styles.loginContainer} 
       style={{ maxWidth: "400px", margin: "0 auto" }}
     >
-      <h2 className={styles.titleTypewriter}>Log In</h2>
+       <h2
+   className={styles.titleTypewriter}
+   style={{ "--chars": title.length }}
+ >
+   {title}
+ </h2>
 
       {error && (
         <Alert variant="danger" className={styles.errorAlert}>
