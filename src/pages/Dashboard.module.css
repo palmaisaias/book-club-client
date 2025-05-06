@@ -1,9 +1,10 @@
 /* Dashboard.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 /* Hero Section */
 .hero {
     position: relative;
-    background-image: url('https://images.unsplash.com/photo-1499257398700-43669759a540?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-image: url('https://images.unsplash.com/photo-1722182877533-7378b60bf1e8?q=80&w=1407&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     background-size: cover;
     background-position: center;
     height: 300px;
@@ -32,10 +33,32 @@
     padding: 0 1rem;
   }
   
+  @keyframes smokeFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(1.05);
+      filter: blur(4px);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(-10px) scale(1.02);
+      filter: blur(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+  
   .heroTitle {
+    font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
+  
+    opacity: 0;
+    animation: smokeFadeIn 2.5s ease-out forwards;
   }
   
   .heroSubtitle {

@@ -13,45 +13,59 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const [book, setBook] = useState(null);
   const [month, setMonth] = useState("");
+  const [userSuggestions, setUserSuggestions] = useState([]);
   const { token, userName } = useContext(AuthContext);
 
   useEffect(() => {
-    async function fetchPick() {
+    async function fetchData() {
       try {
-        const res = await fetch(`${API_URL}/monthly/pick`, {
+        // Trigger or retrieve the monthly pick
+        const pickRes = await fetch(`${API_URL}/monthly/pick`, {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) {
-          const err = await res.json();
+        if (!pickRes.ok) {
+          const err = await pickRes.json();
           throw new Error(err.detail || "No suggestions available");
         }
-        const data = await res.json();
-        setBook(data.suggestion);
-        setMonth(data.month);
+        const pickData = await pickRes.json();
+        setBook(pickData.suggestion);
+        setMonth(pickData.month);
+
+        // Fetch this user's own suggestions
+        const userRes = await fetch(
+          `${API_URL}/suggestions/user/${userName}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (userRes.ok) {
+          const list = await userRes.json();
+          setUserSuggestions(list);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     }
-    fetchPick();
-  }, [token]);
+    fetchData();
+  }, [token, userName]);
 
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section always visible */}
       <section className={styles.hero}>
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Welcome to the Bookish Nine</h1>
-          <p className={styles.heroSubtitle}>This Month’s Escape Awaits... and it’s probably better than last month’s, but no promises.</p>
+          <h1 className={styles.heroTitle}>Welcome to the Book Nook</h1>
+          <p className={styles.heroSubtitle}>
+            This Month’s Escape Awaits...
+          </p>
         </div>
       </section>
 
-      {/* Main Content */}
+      {/* Conditional Content */}
       {loading ? (
         <Container className="d-flex justify-content-center py-5">
           <Spinner animation="border" role="status" />
@@ -68,6 +82,7 @@ export default function Dashboard() {
         </Container>
       ) : (
         <Container className="py-5">
+          {/* Monthly Pick */}
           <Row className="mb-4 text-center">
             <Col>
               <motion.h2
@@ -90,7 +105,7 @@ export default function Dashboard() {
               </p>
             </Col>
           </Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center mb-5">
             <Col md={8} lg={6}>
               <Card className="shadow">
                 <Card.Body className="text-center">
@@ -103,6 +118,31 @@ export default function Dashboard() {
                   </Button>
                 </Card.Body>
               </Card>
+            </Col>
+          </Row>
+
+          {/* User Suggestions Section */}
+          <Row className="mb-3">
+            <Col>
+              <h4 className="fw-semibold">Your Suggestions</h4>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md={8} lg={6}>
+              {userSuggestions.length > 0 ? (
+                <ul className={styles.suggestionsList}>
+                  {userSuggestions.map((s, idx) => (
+                    <li key={idx} className={styles.suggestionEntry}>
+                      <strong>{s.title}</strong>
+                      {s.author && <> by {s.author}</>}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-center text-muted">
+                  You haven't suggested any books yet.
+                </p>
+              )}
             </Col>
           </Row>
         </Container>
