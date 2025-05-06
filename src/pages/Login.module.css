@@ -1,0 +1,116 @@
+/* Login.module.css */
+/* Login.module.css */
+
+/* 1) Container wrapper */
+.loginContainer {
+    background: linear-gradient(180deg, #fff7ed 0%, #ffe5cc 100%) !important;
+    color: #4e2a12 !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+    padding: 2rem !important;
+  }
+  
+  /* 2) Typewriter title (you already have this) */
+  .titleTypewriter {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.15em solid #ba4a00;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    animation:
+      typing 2s steps(6, end) forwards,
+      blinkCaret 0.75s step-end infinite;
+  }
+  
+  /* 3) Form controls */
+  .formControl {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .formControl:focus {
+    outline: none !important;
+    border-color: #ba4a00 !important;
+    box-shadow: 0 0 0 0.2rem rgba(186,74,0,0.25) !important;
+  }
+  
+  /* 4) Submit button */
+  .submitButton {
+    width: 100% !important;
+    padding: 0.75rem !important;
+    margin-top: 1rem !important;
+    border-radius: 999px !important;
+    background-color: #ba4a00 !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    transition: transform 0.2s ease, background-color 0.3s ease !important;
+  }
+  
+  .submitButton:hover {
+    transform: translateY(-2px) !important;
+    background-color: #a84100 !important;
+  }
+  
+  /* 5) Signup link text */
+  .signupText {
+    margin-top: 1rem !important;
+    font-size: 0.9rem !important;
+    color: #4e2a12 !important;
+    text-align: center !important;
+  }
+  
+  .signupLink {
+    color: #ba4a00 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.2s ease !important;
+  }
+  
+  .signupLink:hover {
+    color: #a84100 !important;
+    text-decoration: underline !important;
+  }
+  
+  /* 6) Alert override (optional) */
+  .errorAlert {
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+  }
+/* Typewriter text */
+.titleTypewriter {
+    display: inline-block;            /* shrink‐wrap to text */
+    overflow: hidden;                 /* hide overflow as it types */
+    white-space: nowrap;              /* keep on one line */
+    border-right: 0.15em solid #ba4a00; /* the “cursor” line */
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+  
+    /* animate width from 0 to exactly 6ch (Log␣In is 6 characters) */
+    animation:
+      typing 2s steps(6, end) forwards,    /* type and then hold final width */
+      blinkCaret 0.75s step-end infinite;  /* blink the caret */
+  }
+
+.subheading {
+    font-family: 'Cedarville Cursive', cursive;
+}
+  
+  /* reveal the letters by expanding width from 0ch→6ch */
+  @keyframes typing {
+    from { width: 0ch; }
+    to   { width: 6ch; }
+  }
+  
+  /* blink the caret on/off */
+  @keyframes blinkCaret {
+    from, to { border-color: transparent; }
+    50%      { border-color: #ba4a00; }
+  }
