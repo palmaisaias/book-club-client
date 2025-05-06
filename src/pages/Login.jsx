@@ -6,6 +6,21 @@ import styles from "./Login.module.css";
 import Lottie from "lottie-react";           // if you still have a Lottie here
 import palmData from "../assets/palm.json"; // ditto
 
+function Typewriter({ text, speed = 100 }) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    let idx = 0;
+    const interval = setInterval(() => {
+      setDisplayed(text.slice(0, idx + 1));
+      if (navigator.vibrate) navigator.vibrate(10);
+      idx++;
+      if (idx >= text.length) clearInterval(interval);
+    }, speed);
+    return () => clearInterval(interval);
+  }, [text, speed]);
+  return <h2 className={styles.titleTypewriter}>{displayed}</h2>;
+}
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -45,13 +60,7 @@ export default function Login() {
       className={styles.loginContainer} 
       style={{ maxWidth: "400px", margin: "0 auto" }}
     >
-       <h2
-   className={styles.titleTypewriter}
-   style={{ "--chars": title.length }}
- >
-   {title}
- </h2>
-
+      <Typewriter text={title} speed={150} />
       {error && (
         <Alert variant="danger" className={styles.errorAlert}>
           {error}

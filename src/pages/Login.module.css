@@ -73,35 +73,31 @@
   }
 /* Typewriter text */
 .titleTypewriter {
-    /* make width include the border, so the caret is inside the box */
-    box-sizing: border-box;
-  
-    /* reserve space for the caret inside that box */
-    padding-right: 0.15em;
-  
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-  
-    border-right: 0.15em solid #ba4a00;
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-  
-    /* TYPEWRITER: use exactly 13 steps, then hold at 13ch */
-    animation:
-      typing 3s steps(10, end) forwards,
-      blinkCaret 0.75s step-end infinite;
-  }
-  
-  @keyframes typing {
-    from { width: 0ch; }
-    to   { width: 11.3ch; }
-  }
-  
-  @keyframes blinkCaret {
-    from, to { border-color: transparent; }
-    50%      { border-color: #ba4a00; }
-  }
+  box-sizing: content-box;      /* caret lives in padding, not adding to width */
+  padding-right: 0.15em;        /* reserve for the blinking line */
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid #ba4a00;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+
+  /* use var(--chars) instead of hard‑coded 10 */
+  animation:
+    typing 2s steps(var(--chars), end) forwards,
+    blinkCaret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0ch; }
+  /* grow exactly to number of characters */
+  to   { width: calc(var(--chars) * 1ch); }
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent; }
+  50%      { border-color: #ba4a00; }
+}
 
 .subheading {
     font-family: 'Cedarville Cursive', cursive;
