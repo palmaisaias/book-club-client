@@ -31,27 +31,49 @@ export default function Navbar() {
             >
               Home
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/dashboard"
-              className={`${styles.navLink} ${location.pathname === "/dashboard" ? styles.active : ""}`}
-            >
-              Dashboard
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/profile"
-              className={`${styles.navLink} ${location.pathname === "/profile" ? styles.active : ""}`}
-            >
-              Profile
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/login"
-              className={`${styles.navLink} ${location.pathname === "/login" ? styles.active : ""}`}
-            >
-              Login
-            </Nav.Link>
+
+            {token ? (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/dashboard"
+                  className={`${styles.navLink} ${location.pathname === "/dashboard" ? styles.active : ""}`}
+                >
+                  Dashboard
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/profile"
+                  className={`${styles.navLink} ${location.pathname === "/profile" ? styles.active : ""}`}
+                >
+                  Profile
+                </Nav.Link>
+                <Nav.Link
+                  onClick={logout}
+                  className={styles.navLink}
+                  role="button"
+                >
+                  Logout
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/login"
+                  className={`${styles.navLink} ${location.pathname === "/login" ? styles.active : ""}`}
+                >
+                  Login
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/signup"
+                  className={`${styles.navLink} ${location.pathname === "/signup" ? styles.active : ""}`}
+                >
+                  Signup
+                </Nav.Link>
+              </>
+            )}
           </Nav>
         </RBNavbar.Collapse>
       </Container>
