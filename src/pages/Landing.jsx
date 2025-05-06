@@ -9,7 +9,7 @@ export default function Landing() {
     <Container className={styles.landingContainer}>
       <Row className={`${styles.hero} mb-4 text-center`}>
         <Col>
-          <img src={logo} className={styles.logo} alt="Book Club Logo" />
+          {/* <img src={logo} className={styles.logo} alt="Book Club Logo" /> */}
           <h1 className={styles.heading}>Sibling Book Club</h1>
           <p className={styles.subheading}>Read. Argue. Repeat.</p>
         </Col>
