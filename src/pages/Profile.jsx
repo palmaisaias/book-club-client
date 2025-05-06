@@ -10,6 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 export default function Profile() {
   const navigate = useNavigate();
   const { token, userName } = useContext(AuthContext);
+  console.log("Profile component mounted", { userName, token });
 
   // Use a storage key unique to this user
   const storageKey = `bookSuggestions-${userName}`;
@@ -19,48 +20,90 @@ export default function Profile() {
   const [suggestions, setSuggestions] = useState(
     stored.length ? stored : [{ title: "", author: "" }]
   );
+  console.log("Initial suggestions state:", suggestions);
 
   // Persist changes to that per-user key
   useEffect(() => {
+    console.log("Persisting suggestions to localStorage:", suggestions);
     localStorage.setItem(storageKey, JSON.stringify(suggestions));
   }, [suggestions, storageKey]);
 
-  const handleChange = (idx, field, value) =>
+  const handleChange = (idx, field, value) => {
+    console.log("handleChange:", { idx, field, value });
     setSuggestions((prev) =>
       prev.map((s, i) => (i === idx ? { ...s, [field]: value } : s))
     );
+  };
 
   const addRow = () => {
+    console.log("addRow invoked, before:", suggestions);
     if (suggestions.length < 4) {
       setSuggestions([...suggestions, { title: "", author: "" }]);
     }
   };
 
   const removeRow = (idx) => {
-    setSuggestions(suggestions.filter((_, i) => i !== idx));
+    console.log("removeRow invoked, index:", idx, "before:", suggestions);
+    setSuggestions((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const handleSave = async () => {
+  // Now wired as form submit handler
+  const handleSave = async (e) => {
+    e.preventDefault();
+    console.log("handleSave invoked; suggestions:", suggestions, "userName:", userName);
+
     try {
       for (const s of suggestions) {
         if (!s.title.trim()) continue;
-        await fetch(`${API_URL}/suggestions/`, {
+
+        const payload = { username: userName, title: s.title, author: s.author };
+        console.log("POST /suggestions/ payload:", payload);
+
+        const res = await fetch(`${API_URL}/suggestions/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            username: userName,
-            title: s.title,
-            author: s.author,
-          }),
+          body: JSON.stringify(payload),
         });
+
+        console.log("Response status:", res.status);
+        const resData = await res.json().catch(() => null);
+        console.log("Response JSON:", resData);
+
+        if (!res.ok) {
+          // Build a friendly error message
+          let errMsg = "Save failed";
+          // If FastAPI returns a list directly
+          if (Array.isArray(resData)) {
+            errMsg = resData
+              .map(e => {
+                const field = Array.isArray(e.loc) ? e.loc.slice(-1)[0] : e.loc;
+                return `${field}: ${e.msg}`;
+              })
+              .join("; ");
+          }
+          // If FastAPI wraps errors under `detail`
+          else if (Array.isArray(resData?.detail)) {
+            errMsg = resData.detail
+              .map(e => {
+                const field = Array.isArray(e.loc) ? e.loc.slice(-1)[0] : e.loc;
+                return `${field}: ${e.msg}`;
+              })
+              .join("; ");
+          }
+          // Or a single message
+          else if (typeof resData?.detail === "string") {
+            errMsg = resData.detail;
+          }
+          throw new Error(errMsg);
+        }
       }
       navigate("/dashboard");
     } catch (err) {
       console.error("Save failed:", err);
-      alert("Couldn’t save—check the console.");
+      alert(`Couldn’t save—${err.message}`);
     }
   };
 
@@ -77,7 +120,8 @@ export default function Profile() {
         <Col md={8} lg={6}>
           <Card className={`${styles.card} shadow`}>
             <Card.Body>
-              <Form>
+              {/* Attach onSubmit here */}
+              <Form onSubmit={handleSave}>
                 {suggestions.map((s, idx) => (
                   <div key={idx} className={styles.suggestionItem}>
                     <Form.Group className={styles.formGroup}>
@@ -85,9 +129,7 @@ export default function Profile() {
                       <Form.Control
                         value={s.title}
                         placeholder="Book title"
-                        onChange={(e) =>
-                          handleChange(idx, "title", e.target.value)
-                        }
+                        onChange={(e) => handleChange(idx, "title", e.target.value)}
                       />
                     </Form.Group>
 
@@ -96,9 +138,7 @@ export default function Profile() {
                       <Form.Control
                         value={s.author}
                         placeholder="Author name"
-                        onChange={(e) =>
-                          handleChange(idx, "author", e.target.value)
-                        }
+                        onChange={(e) => handleChange(idx, "author", e.target.value)}
                       />
                     </Form.Group>
 
@@ -125,9 +165,9 @@ export default function Profile() {
 
                 <div className="d-grid">
                   <Button
+                    type="submit"
                     variant="primary"
                     className={styles.saveButton}
-                    onClick={handleSave}
                   >
                     Save & Return to Dashboard
                   </Button>
