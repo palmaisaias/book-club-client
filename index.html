@@ -1,25 +1,26 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/assets/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Sibling Book Club" />
-    <meta property="og:description" content="Join our family book club to suggest, vote, and discover your next read!" />
-    <meta property="og:image" content="https://book-club-client.vercel.app/assets/logo.png" />
+<head>
+  <!-- … your existing meta tags … -->
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sibling Book Club" />
-    <meta name="twitter:description" content="Join our family book club to suggest, vote, and discover your next read!" />
-    <meta name="twitter:image" content="https://book-club-client.vercel.app/assets/logo.png" />
-    <title>Vite + React</title>
-    <title>Sibling Book Club</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+  <!-- 1) Tell iMessage the canonical URL -->
+  <meta property="og:url"         content="https://book-club-client.vercel.app" />
+
+  <!-- 2) Site name (will appear under the title) -->
+  <meta property="og:site_name"   content="Sibling Book Club" />
+
+  <!-- 3) Title (your page title) -->
+  <meta property="og:title"       content="Sibling Book Club" />
+
+  <!-- 4) Preview image—at least 900 px wide (ideally 1200×630) -->
+  <meta property="og:image"       content="https://images.unsplash.com/vector-1738590592643-6c848d2a02f2?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- 5) (Optional) description for other platforms -->
+  <meta property="og:description" content="Join our family book club to suggest, vote, and discover your next read!" />
+
+  <!-- Twitter cards (Messages ignores these, but other platforms use them) -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Sibling Book Club" />
+  <meta name="twitter:description" content="Join our family book club to suggest, vote, and discover your next read!" />
+  <meta name="twitter:image"       content="https://book-club-client.vercel.app/assets/logo.png" />
+</head>
