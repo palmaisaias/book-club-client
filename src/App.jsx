@@ -6,6 +6,7 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Profile from "./pages/Profile.jsx";
+import Navbar from "./components/Navbar.jsx"; 
 
 function PrivateRoute({ children }) {
   const { token } = useContext(AuthContext);
@@ -14,6 +15,8 @@ function PrivateRoute({ children }) {
 
 export default function App() {
   return (
+    <>
+    <Navbar /> 
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
@@ -36,5 +39,6 @@ export default function App() {
       />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </>
   );
 }

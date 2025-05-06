@@ -1,0 +1,45 @@
+/* Navbar.module.css */
+
+/* Overall navbar styling */
+.navbar {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Brand styling */
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2a9d8f !important;
+  }
+  
+  /* Nav link base style */
+  .navLink {
+    font-size: 1rem;
+    margin-left: 1rem;
+    color: #333 !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+  
+  /* Hover effect */
+  .navLink:hover {
+    color: #2a9d8f !important;
+    transform: translateY(-2px);
+  }
+  
+  /* Active link highlight */
+  .active {
+    color: #e76f51 !important;
+    font-weight: 600;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 992px) {
+    .navLink {
+      margin: 0.5rem 0;
+      text-align: center;
+    }
+    .brand {
+      font-size: 1.25rem;
+    }
+  }

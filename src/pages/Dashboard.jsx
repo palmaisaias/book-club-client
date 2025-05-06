@@ -58,9 +58,9 @@ export default function Dashboard() {
       <section className={styles.hero}>
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Welcome to the Book Nook</h1>
+          <h1 className={styles.heroTitle}>Welcome to the Bookish Nine</h1>
           <p className={styles.heroSubtitle}>
-            This Month’s Escape Awaits...
+            You're all retarded...
           </p>
         </div>
       </section>
